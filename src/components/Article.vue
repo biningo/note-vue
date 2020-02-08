@@ -13,7 +13,7 @@
 
 
                     </div>
-                    <el-link style="font-weight: bolder;font-size: 17px" href="https://element.eleme.io" target="_blank"  >
+                    <el-link style="font-weight: bolder;font-size: 15px" href="https://element.eleme.io" target="_blank"  >
                         <i class="el-icon-document" style="margin-right: 1px"></i>
                         默认链接</el-link>
                 </el-tooltip>

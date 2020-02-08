@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import FileList from "@/components/FileList";
+    import FileList from "@/components/Article";
     export default {
         data:function(){
             return{

@@ -82,8 +82,8 @@
 
 <script>
 
-    import FolderList from "@/components/FolderList";
-    import FileList from "@/components/FileList";
+    import FolderList from "@/components/Folder";
+    import FileList from "@/components/Article";
     export default {
 
         name: "files",

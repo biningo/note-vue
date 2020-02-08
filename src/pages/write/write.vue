@@ -38,14 +38,17 @@
 <!--          目录-->
             <div >
                 目录:
-                <el-tree
-                        :data="data"
-                        show-checkbox
-                        node-key="id"
 
-                        :default-checked-keys="[9]"
-                        :props="defaultProps">
-                </el-tree>
+                <el-cascader
+                        filterable
+                        :props="props"
+                        v-model="categoryPath"
+                        :options="options"
+                        @change="handleChange"
+                        clearable
+                ></el-cascader>
+
+
             </div>
             <el-divider></el-divider>
 
@@ -98,49 +101,66 @@
                 inputValue: '',
 
 
-                data: [{
-                    id: 1,
-                    label: '一级 1',
-                    children: [{
-                        id: 4,
-                        label: '二级 1-1',
-                        children: [{
-                            id: 9,
-                            label: '三级 1-1-1'
-                        }, {
-                            id: 10,
-                            label: '三级 1-1-2'
-                        }]
-                    }]
-                }, {
-                    id: 2,
-                    label: '一级 2',
-                    children: [{
-                        id: 5,
-                        label: '二级 2-1'
-                    }, {
-                        id: 6,
-                        label: '二级 2-2'
-                    }]
-                }, {
-                    id: 3,
-                    label: '一级 3',
-                    children: [{
-                        id: 7,
-                        label: '二级 3-1'
-                    }, {
-                        id: 8,
-                        label: '二级 3-2'
-                    }]
-                }],
-                defaultProps: {
-                    children: 'children',
-                    label: 'label'
+                categoryPath:[],
+                options: [
+                    {
+                    value: {name:"你好",id:1},
+                    label: '指南',
+                    },
+                    {
+                        value: '2',
+                        label: '指南',
+                    },
+                    {
+                        value: '3',
+                        label: '指南',
+                    }
+
+
+
+
+                ],
+                props: {
+                    checkStrictly: true,
+                    lazy:true,
+                    lazyLoad(node,resolve){
+                        // eslint-disable-next-line no-console
+                        console.log(node);
+
+
+                            const nodes = [
+                                {
+                                    value: '2',
+                                    label: '2',
+                                    leaf:true,
+                                },
+                                {
+                                    value: '4',
+                                    label: '4',
+                                }
+                            ]
+
+                            resolve(nodes);
+
+                    }
+
                 }
 
+
             }
+
+
+
+
+
         },
         methods:{
+
+            handleChange(val)
+            {
+                // eslint-disable-next-line no-console
+              console.log(val)
+            },
             change(mkValue,mkHtml){
                this.mkiValue=mkValue;
                 // eslint-disable-next-line no-console
