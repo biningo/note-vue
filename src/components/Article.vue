@@ -2,7 +2,7 @@
     <div>
 
         <el-row>
-            <el-col :span="18" >
+            <el-col :span="16" >
                 <el-tooltip  effect="light"  placement="right">
                     <div slot="content">
                         <el-link icon="el-icon-edit"></el-link>

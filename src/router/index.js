@@ -34,6 +34,16 @@ const routes=[
                 name:"manage",
                 path:"/manage",
                 component:()=>import("../pages/manage/manage.vue")
+        },
+        {
+                name:"timeline",
+                path:"/timeline",
+                component:()=>import("../pages/time_line/TimeLine.vue")
+        },
+        {
+                name:"backlog",
+                path:"/backlog",
+                component:()=>import("../pages/backlog/backlog.vue")
         }
 
 

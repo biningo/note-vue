@@ -57,7 +57,7 @@
 
 
 <!--        文件列表-->
-        <el-row  style="margin-top: 2%">
+        <el-row  style="margin-top: 2%;padding-left: 1%;padding-right: 5%">
 
 <!--            目录-->
             <el-row  v-for="j in 3" :key="j" >
