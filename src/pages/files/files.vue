@@ -11,7 +11,7 @@
 
 
 <!--        文件列表-->
-        <file-list></file-list>
+        <file-list ref="FileList"></file-list>
 
 
 
@@ -30,21 +30,16 @@
         data:function () {
             return{
 
-
+                file:null
 
             }
         },
         methods:{
 
-
-
-
-
         },
 
         components:{
             FileList,
-
             FilterNav,
             Navigate,
 

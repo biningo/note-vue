@@ -21,20 +21,45 @@
 </template>
 
 <script>
+
+    import request from "@/network/request";
     export default {
         name: "navigate",
         methods:{
             open(title){
 
 
-                this.$prompt(title, '名称', {
+                this.$prompt(title, '创建', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(({ value }) => {
-                    this.$message({
-                        type: 'success',
-                        message:value
-                    });
+
+                    if (title==="目录名称"){
+
+                        request({
+                            url:"/folder/add",
+                            params:{
+                                title:value
+                            }
+                        }).then(resp=>{
+                            this.$message({
+                                type: 'success',
+                                message:resp.data.msg
+                            });
+
+                            this.$parent.$refs.FileList.FolderList.push(resp.data.data)
+
+                        }).catch(err=>{
+                            this.$message({
+                                type: 'success',
+                                message:err
+                            });
+                        })
+
+
+                    }
+
+
                 });
 
 

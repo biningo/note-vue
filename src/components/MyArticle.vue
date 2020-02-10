@@ -23,7 +23,7 @@
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro" >{{FileInfo.updated_at}}</i>
+                <i class="el-icon-date" style="color: gainsboro" >{{ArticleInfo.updated_at}}</i>
 
 
             </el-col>
@@ -35,13 +35,13 @@
 
 
         <el-dialog
-                :title="FileInfo.title"
+                :title="ArticleInfo.title"
                 :visible.sync="dialogVisible"
                 width="90%"
 
         >
             <span>
-                {{FileInfo.MkHtml}}
+                {{ArticleInfo.MkHtml}}
             </span>
 
         </el-dialog>
@@ -57,8 +57,8 @@
 <script>
 
     export default {
-        name: "FileList",
-        props:["FileInfo"],
+        name: "MyArticle",
+        props:["ArticleInfo"],
         data:function(){
             return{
                 dialogVisible:false
