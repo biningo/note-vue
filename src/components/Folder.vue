@@ -17,16 +17,16 @@
 
 
                     </div>
-                    <el-link style="font-size: 17px" href="https://element.eleme.io" target="_blank"  >
+                    <el-link style="font-size: 17px"    >
                         <i class="el-icon-folder" style="margin-right: 1px"></i>
-                        默认链接</el-link>
+                        {{FolderInfo.title}}</el-link>
                 </el-tooltip>
             </el-col>
 
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro">2019-8-9</i>
+                <i class="el-icon-date" style="color: gainsboro">{{FolderInfo.updated_at}}</i>
 
 
             </el-col>
@@ -43,7 +43,12 @@
 
 <script>
     export default {
-        name: "FolderList"
+        name: "FolderList",
+        props:["FolderInfo"],
+        data:function () {
+            return{}
+        }
+
     }
 </script>
 

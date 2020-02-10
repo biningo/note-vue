@@ -23,7 +23,7 @@
         </el-row>
 
         <el-row style="padding: 1%">
-            <file-list v-for="j in 12" :key="j"></file-list>
+            <file v-for="j in 12" :key="j"></file>
         </el-row>
 
 
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import FileList from "@/components/Article";
+    import File from "@/components/MyArticle";
     export default {
         data:function(){
             return{
@@ -54,7 +54,7 @@
             }
         },
         name: "tag",
-        components: {FileList},
+        components: {File},
         computed:{
             cancel:function () {
                 return this.filter.length!==0
