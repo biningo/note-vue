@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <el-row style="margin-top: 1%;padding-left: 1%">
+        <el-row style="margin-top: 1%;padding-left: 70%">
 
               <el-button type="success" round size="mini"><i class="el-icon-edit"></i>写心情</el-button>
 

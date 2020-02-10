@@ -44,10 +44,7 @@
                     <span slot="title" >写笔记</span>
                 </el-menu-item>
 
-                <el-menu-item index="backlog" @click="Link('backlog')">
-                    <i class="el-icon-alarm-clock"></i>
-                    <span slot="title">待办</span>
-                </el-menu-item>
+
 
 
                 <el-menu-item index="files" @click="Link('files')">
@@ -56,9 +53,17 @@
                 </el-menu-item>
 
 
+
+
                 <el-menu-item index="tag" @click="Link('tag')">
                     <i class="el-icon-collection-tag"></i>
                     <span slot="title">标签</span>
+                </el-menu-item>
+
+
+                <el-menu-item index="backlog" @click="Link('backlog')">
+                    <i class="el-icon-alarm-clock"></i>
+                    <span slot="title">待办</span>
                 </el-menu-item>
 
                 <el-menu-item index="manage" @click="Link('manage')"><i class="el-icon-s-tools"></i><span slot="title">管理</span> </el-menu-item>
