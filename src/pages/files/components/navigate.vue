@@ -2,13 +2,13 @@
     <div  style="padding-top: 1%;">
         <el-row>
         <el-col :span="18">
-            <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item ><a >文件夹</a></el-breadcrumb-item>
-                <el-breadcrumb-item><a >活动管理</a></el-breadcrumb-item>
-                <el-breadcrumb-item><a>活动列表</a></el-breadcrumb-item>
-                <el-breadcrumb-item><a>活动列表</a></el-breadcrumb-item>
 
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+               <el-breadcrumb-item v-for="n in Nav" :key="n"><a  href="#" @click="ChangeNav(n)">{{n}}</a></el-breadcrumb-item>
             </el-breadcrumb>
+
+
+
         </el-col>
 
         <el-col :span="6">
@@ -25,6 +25,11 @@
     import request from "@/network/request";
     export default {
         name: "navigate",
+        data:function(){
+          return{
+              Nav:[]
+          }
+        },
         methods:{
             open(title){
 
@@ -39,7 +44,8 @@
                         request({
                             url:"/folder/add",
                             params:{
-                                title:value
+                                title:value,
+                                FolderTitle:this.Nav[this.Nav.length-1]
                             }
                         }).then(resp=>{
                             this.$message({
@@ -64,6 +70,18 @@
 
 
 
+            },
+            ChangeNav(title){
+               console.log(title);
+                request({
+                    url:"/folder/sub_file/"+1,
+                    params:{
+                        title:title,
+                    }
+                }).then(resp=>{
+                    console.log(resp.data)
+                   this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Nav.reverse())
+                })
             }
         }
     }

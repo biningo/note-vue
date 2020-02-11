@@ -3,7 +3,7 @@
 
 <!--面包导航-->
 
-         <navigate></navigate>
+         <navigate ref="navigate"></navigate>
 
 
 <!--查找过滤-->
