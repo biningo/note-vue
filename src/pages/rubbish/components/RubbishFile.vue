@@ -4,7 +4,7 @@
             <el-col :span="18" >
                 <el-tooltip  effect="light"  placement="right">
                     <div slot="content">
-                        <el-link icon="el-icon-refresh-right"></el-link>
+                        <el-link icon="el-icon-refresh-right" @click="Recover"></el-link>
                         <el-divider direction="vertical"></el-divider>
                         <el-link class="el-icon-info"> </el-link>
 
@@ -12,14 +12,14 @@
                     </div>
                     <el-link style="font-weight: bolder;font-size: 17px" @click="dialogVisible=true" target="_blank"  >
                         <i class="el-icon-document" style="margin-right: 1px"></i>
-                        默认链接</el-link>
+                        {{FileInfo.title}}</el-link>
 
                 </el-tooltip>
             </el-col>
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro">2019-8-9</i>
+                <i class="el-icon-date" style="color: gainsboro">{{FileInfo.deleted_time}}</i>
 
 
             </el-col>
@@ -35,12 +35,7 @@
                 width="90%"
 
         >
-            <span v-for="j in 100" :key="j">这是一段信息这是一段信息这是一段信息
-            这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息
-            这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息
-            这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息
-            这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息
-            这是一段信息这是一段信息这是一段信息这是一段信息这是一段信息</span>
+            {{FileInfo.mkHtml}}
 
         </el-dialog>
     </div>
@@ -48,10 +43,16 @@
 
 <script>
     export default {
-        name: "RublishFileList",
+        name: "RublishFile",
+        props:["FileInfo"],
         data:function () {
             return {
                 dialogVisible:false
+            }
+        },
+        methods:{
+            Recover(){
+                this.$emit("Recover",this.FileInfo.id)
             }
         }
     }

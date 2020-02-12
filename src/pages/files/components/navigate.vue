@@ -75,6 +75,7 @@
                             }
                         }).then(resp=>{
                                 this.$message({
+                                    type:"success",
                                     message:resp.data.msg
                                 });
 
