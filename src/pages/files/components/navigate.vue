@@ -64,7 +64,33 @@
 
 
                     }
+                    else if (title==="文章名称"){
+                        request({
+                            method:'post',
+                            url:"/article/add",
+                            data:{
+                                title:value,
+                                folder_title:this.Nav[this.Nav.length-1]
 
+                            }
+                        }).then(resp=>{
+                                this.$message({
+                                    message:resp.data.msg
+                                });
+
+                                //注意params传递数据要与name属性一起 不能与path一起
+                            this.$router.push({
+                                name:"write",
+                                params:{
+                                   article:resp.data.data
+                                }
+                            })
+
+                        }).catch(err=>{console.log(err)})
+
+
+
+                    }
 
                 });
 
@@ -72,15 +98,15 @@
 
             },
             ChangeNav(title){
-               console.log(title);
+
                 request({
                     url:"/folder/sub_file/"+1,
                     params:{
                         title:title,
                     }
                 }).then(resp=>{
-                    console.log(resp.data)
-                   this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Nav.reverse())
+
+                   this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
                 })
             }
         }

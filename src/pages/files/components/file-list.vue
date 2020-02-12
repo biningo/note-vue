@@ -5,7 +5,7 @@
             <!--            目录-->
             <folder  @AccessFolder="AccessFolder" @Delete="Delete" v-for="j in FolderList" :key="j.id" :folder-info="j"></folder>
             <!--            文件-->
-            <my-article v-for="j in ArticleList" :key="j.id" :article-info="j"></my-article>
+            <my-article v-for="j in ArticleList" :key="j.id"  @Delete="DeleteArticle" :article-info="j"></my-article>
 
 
         </el-row>
@@ -27,6 +27,7 @@
                 Nav:[]
             }
         },
+
         mounted() {
             this.loading=true;
             request({
@@ -42,7 +43,7 @@
 
 
             }).catch(err=>{console.log(err)});
-            console.log("OK")
+
         },
         methods:{
             Delete(id) {
@@ -53,8 +54,17 @@
                 }
             },
 
-            AccessFolder(FolderList,nav){
+            DeleteArticle(id){
+                for(var i=0;i<this.ArticleList.length;i++){
+                    if(this.ArticleList[i].id==id){
+                        this.ArticleList.splice(i,1)
+                    }
+                }
+            },
+
+            AccessFolder(FolderList,ArticleList,nav){
                 this.FolderList=FolderList;
+                this.ArticleList=ArticleList;
                 this.$parent.$refs.navigate.Nav=nav;
 
             }

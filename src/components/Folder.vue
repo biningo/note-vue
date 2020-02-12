@@ -102,7 +102,7 @@
                     url:"/folder/sub_file/"+1,
                     params:this.FolderInfo
                 }).then(resp=>{
-                    this.$emit("AccessFolder",resp.data.Folders,resp.data.Nav.reverse())
+                    this.$emit("AccessFolder",resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
                 })
             }
         }

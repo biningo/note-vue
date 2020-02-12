@@ -4,16 +4,15 @@
 
 
 <el-col :span="21" style="padding-right: 1%;" >
-
     <el-row>
 
             <div style="text-align: center;margin-bottom: 1%;margin-top: 1%;font-size: 30px">
-                <el-input v-model="title" placeholder="标题"></el-input>
+                <el-input v-model="article.title" placeholder="标题"></el-input>
             </div>
 
     </el-row>
     <el-row>
-        <mavon-editor style="height:700px;" v-model="mkHtml" @change="change"/>
+        <mavon-editor style="height:700px;" v-model="article.mkValue" @change="change"/>
     </el-row>
     <el-row style="text-align: center">
         <el-link type="success">感谢使用</el-link>
@@ -24,8 +23,8 @@
 
             <!--            日期-->
             <div style="text-align: center">
-                创建日期: <i class="el-icon-date" style="color: deepskyblue">2019-8-9</i>
-                最近更新: <i class="el-icon-date" style="color: orange">2019-8-9</i>
+                创建日期: <i class="el-icon-date" style="color: deepskyblue">{{article.created_at}}</i>
+                最近更新: <i class="el-icon-date" style="color: orange">{{article.updated_at}}</i>
             </div>
             <el-divider></el-divider>
 
@@ -89,10 +88,19 @@
 <script>
     export default {
         name: "write",
+        mounted(){
+            this.article=this.$route.params.article;
+        },
+
+
         data:function () {
             return{
-                mkText:"",
+
+                article:null,
+
+
                 mkHtml:"",
+                mkValue:"",
                 title:"无标题",
 
 

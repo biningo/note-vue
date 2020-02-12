@@ -6,17 +6,17 @@
                 <el-tooltip  effect="light"  placement="right">
 
                     <div slot="content">
-                        <el-link icon="el-icon-edit"></el-link>
+                        <el-link icon="el-icon-edit" @click="Edit"></el-link>
                         <el-divider direction="vertical"></el-divider>
                         <el-link class="el-icon-info"> </el-link>
                         <el-divider direction="vertical"></el-divider>
-                        <el-link class="el-icon-delete"></el-link>
+                        <el-link class="el-icon-delete" @click="Delete"></el-link>
 
 
                     </div>
                     <el-link style="font-weight: bolder;font-size: 15px" @click="dialogVisible=true" target="_blank"  >
                         <i class="el-icon-document" style="margin-right: 1px"></i>
-                      {{FileInfo.title}}</el-link>
+                      {{ArticleInfo.title}}</el-link>
                 </el-tooltip>
 
             </el-col>
@@ -56,6 +56,8 @@
 
 <script>
 
+    import request from "@/network/request";
+
     export default {
         name: "MyArticle",
         props:["ArticleInfo"],
@@ -65,6 +67,34 @@
             }
         },
         methods: {
+            Delete(){
+                request({
+                    method:'get',
+                    url:"/article/delete",
+                    params:{
+                        id:this.ArticleInfo.id
+                    }
+
+                }).then(resp=>{
+                    this.$message({
+                        type:'success',
+                        message:resp.data.msg
+                    });
+
+                    this.$emit('Delete',resp.data.data);
+
+                });
+            },
+
+
+            Edit(){
+                this.$router.push({
+                    name:"write",
+                    params:{
+                        article:this.ArticleInfo
+                    }
+                })
+            }
 
         }
 
