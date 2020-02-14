@@ -13,6 +13,7 @@
     </el-row>
     <el-row>
         <mavon-editor style="height:700px;" v-model="article.mkValue"
+                      :ishljs="true"
                       ref="md"
                       @imgAdd="ImgAdd"
                       @imgDel="ImgDel"
@@ -43,11 +44,10 @@
 <!--          目录-->
             <div >
                 目录:
-
                 <el-cascader
                         filterable
                         :props="props"
-                        v-model="categoryPath"
+                        v-model="dirId"
                         :options="options"
                         @change="handleChange"
                         clearable
@@ -84,9 +84,16 @@
 
 <!--           保存-->
             <div style="text-align: center">
-                <el-button type="success" >保存文章</el-button>
+                <el-button type="success" @click="FinishSave">保存文章</el-button>
             </div>
         </el-col>
+
+
+
+
+
+
+
 
     </div>
 </template>
@@ -96,30 +103,66 @@
 
 import request from "@/network/request";
 
+
     export default {
         name: "write",
+        components: {},
         mounted(){
-
-
-
             if(this.$route.params.article){
                 this.article=this.$route.params.article;
             }
+
+            request({
+                url:"/folder/sub_folder"
+            }).then(resp=>{
+                this.options=resp.data.data
+            }).catch(err=>{console.log(err)})
+
+
         },
 
 
         data:function () {
             return{
 
+
+                //目录
+                dirId:[],
+                options:[],
+                props: {
+                    checkStrictly: true,
+                    lazy:true,
+                    lazyLoad(node,resolve){
+                        // eslint-disable-next-line no-console
+
+
+
+                        request({
+                            url:"/folder/sub_folder",
+                            params:{
+                                id:node.value,
+                                title:node.label
+                            }
+                        }).then(resp=>{
+                            resolve(resp.data.data);
+                        });
+
+
+                    }
+
+                },
+
+
+
+
                 article:{
-                    id:null,
+                    id:0,
                     created_at:"0-0-0-0",
                     updated_at:"0-0-0-0",
                     title:"无标题",
                     folder_id:null,
                     tags:[],
-                    mkValue: null,
-                    mkHtml:null
+                    mkValue: null
                 },
 
 
@@ -127,55 +170,10 @@ import request from "@/network/request";
 
 
                 //标签
-                dynamicTags: ['标签一', '标签二', '标签三'],
                 inputVisible: false,
                 inputValue: '',
 
-                //目录
-                categoryPath:[],
-                options: [
-                    {
-                    value: {name:"你好",id:1},
-                    label: '指南',
-                    },
-                    {
-                        value: '2',
-                        label: '指南',
-                    },
-                    {
-                        value: '3',
-                        label: '指南',
-                    }
 
-
-
-
-                ],
-                props: {
-                    checkStrictly: true,
-                    lazy:true,
-                    lazyLoad(node,resolve){
-                        // eslint-disable-next-line no-console
-                        console.log(node);
-
-
-                            const nodes = [
-                                {
-                                    value: '2',
-                                    label: '2',
-                                    leaf:true,
-                                },
-                                {
-                                    value: '4',
-                                    label: '4',
-                                }
-                            ]
-
-                            resolve(nodes);
-
-                    }
-
-                }
 
 
             }
@@ -187,12 +185,44 @@ import request from "@/network/request";
         },
         methods:{
 
-            //编辑器
-            Save(mkValue,mkHtml){
-                this.mkHtml=mkHtml;
+            //点击保存事件
+            FinishSave(){
 
-               //request update
+                this.article.mkValue=this.$refs.md.$data.d_value;
+                request({
+                    url:"/article/update",
+                    method:"post",
+                    data:this.article
+                }).then(resp=>{
+                    this.$message({
+                        type:"success",
+                        message:resp.data.msg
+                    });
+                    this.article=resp.data.data
+                }).catch(err=>{console.log(err)})
+
             },
+            //编辑器
+            //保存 Ctrl+S回调
+            Save(mkValue){
+
+                this.article.mkValue=mkValue;
+
+
+                request({
+                    url:"/article/update",
+                    method:"post",
+                    data:this.article
+                }).then(resp=>{
+                    this.$message({
+                        type:"success",
+                        message:resp.data.msg
+                    });
+                    this.article=resp.data.data
+                }).catch(err=>{console.log(err)})
+            },
+
+            //图片上传七牛云 图片名字唯一
             ImgAdd(pos,imgfile){
                 console.log(imgfile);
                 let data = new FormData();
@@ -219,13 +249,9 @@ import request from "@/network/request";
                         message:err
                     })
                 })
-
-
-
-
-
-
             },
+
+            //图片从七牛云删除
             ImgDel(file){
                 request({
                     url:"/qiniu/img_delete",
@@ -248,9 +274,10 @@ import request from "@/network/request";
             },
 
 
-            //标签
+            //标签回调函数
+            // tag是tags内容 也就是名字
             handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                this.article.tags.splice(this.article.tags.indexOf(tag), 1);
             },
             showInput() {
                 this.inputVisible = true;
@@ -261,13 +288,14 @@ import request from "@/network/request";
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.dynamicTags.push(inputValue);
+                    this.article.tags.push(inputValue);
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
             },
 
             //目录
+            // 改变回调函数
             handleChange(val)
             {
                 // eslint-disable-next-line no-console
@@ -282,6 +310,6 @@ import request from "@/network/request";
     }
 </script>
 
-<style scoped>
+<style scoped >
 
 </style>
