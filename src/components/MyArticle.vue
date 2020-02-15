@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="loading">
 
         <el-row>
             <el-col :span="16" >
@@ -63,7 +63,9 @@
         props:["ArticleInfo"],
         data:function(){
             return{
-                dialogVisible:false
+                dialogVisible:false,
+                articleView:null,
+                loading:false,
             }
         },
         methods: {
@@ -88,12 +90,26 @@
 
 
             Edit(){
-                this.$router.push({
-                    name:"write",
-                    params:{
-                        article:this.ArticleInfo
-                    }
-                })
+                this.loading=true
+                //注意 axios是异步请求
+                request({
+                    url:"/article/edit",
+                    method:"post",
+                    data:this.ArticleInfo
+                }).then(resp=>{
+                    this.articleView= resp.data.data;
+
+                    this.$router.push({
+                        name:"write",
+                        params:{
+                            article:this.articleView
+                        }
+                    })
+                    this.loading=false
+
+                });
+
+
             }
 
         }

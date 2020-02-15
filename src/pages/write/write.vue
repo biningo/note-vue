@@ -47,7 +47,7 @@
                 <el-cascader
                         filterable
                         :props="props"
-                        v-model="dirId"
+                        v-model="article.dir_path"
                         :options="options"
                         @change="handleChange"
                         clearable
@@ -108,16 +108,9 @@ import request from "@/network/request";
         name: "write",
         components: {},
         mounted(){
-            if(this.$route.params.article){
-                this.article=this.$route.params.article;
+            if(this.$route.params.article) {
+                this.article = this.$route.params.article;
             }
-
-            request({
-                url:"/folder/sub_folder"
-            }).then(resp=>{
-                this.options=resp.data.data
-            }).catch(err=>{console.log(err)})
-
 
         },
 
@@ -127,7 +120,6 @@ import request from "@/network/request";
 
 
                 //目录
-                dirId:[],
                 options:[],
                 props: {
                     checkStrictly: true,
@@ -159,10 +151,13 @@ import request from "@/network/request";
                     id:0,
                     created_at:"0-0-0-0",
                     updated_at:"0-0-0-0",
+                    deleted_at:"0-0-0-0",
                     title:"无标题",
-                    folder_id:null,
+                    dir_path:[],
                     tags:[],
-                    mkValue: null
+                    mkValue: null,
+                    folder_id:0,
+                    folder_title:""
                 },
 
 
@@ -198,7 +193,6 @@ import request from "@/network/request";
                         type:"success",
                         message:resp.data.msg
                     });
-                    this.article=resp.data.data
                 }).catch(err=>{console.log(err)})
 
             },
@@ -218,7 +212,7 @@ import request from "@/network/request";
                         type:"success",
                         message:resp.data.msg
                     });
-                    this.article=resp.data.data
+
                 }).catch(err=>{console.log(err)})
             },
 
