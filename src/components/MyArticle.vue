@@ -27,7 +27,7 @@
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro" >{{ArticleInfo.updated_at}}</i>
+                <i class="el-icon-date" style="color: gainsboro" >{{ArticleInfo.updated_at.slice(0,16)}}</i>
 
 
             </el-col>
@@ -38,17 +38,24 @@
         </el-row>
 
 
-        <el-dialog
+
+<!--文章展示-->
+        <el-drawer
                 :title="ArticleInfo.title"
                 :visible.sync="dialogVisible"
-                width="90%"
-
+                size="auto"
+                direction="ttb"
+                style="overflow: auto"
         >
-            <span>
-                {{ArticleInfo.MkHtml}}
-            </span>
+<div style="padding-left: 6%;padding-right: 6%">
+            <makedown-show
+                    background="#F0FFF0"
+                    :mk-value="ArticleInfo.mkValue" ></makedown-show>
+</div>
+        </el-drawer>
 
-        </el-dialog>
+
+
 
 
     </div>
@@ -61,9 +68,11 @@
 <script>
 
     import request from "@/network/request";
+    import MakedownShow from "@/components/makedownShow";
 
     export default {
         name: "MyArticle",
+        components: {MakedownShow},
         props:["ArticleInfo"],
         data:function(){
             return{

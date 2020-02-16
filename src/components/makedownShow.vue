@@ -1,13 +1,15 @@
 <template>
     <div>
         <mavon-editor
+
                 :boxShadow="false"
-                previewBackground="#F0FFF0"
+                :previewBackground="background"
                 :value="mkValue"
                 :subfield = "false"
                 :defaultOpen = "'preview'"
                 :toolbarsFlag = "false"
                 :editable="false"
+
         ></mavon-editor>
     </div>
 </template>
@@ -15,7 +17,7 @@
 <script>
     export default {
         name: "makedownShow",
-        props:['mkValue'],
+        props:['mkValue','background'],
     }
 </script>
 
