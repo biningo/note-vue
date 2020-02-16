@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <div  v-loading.fullscreen.lock="loading"
+         element-loading-text="拼命加载中"
+         element-loading-spinner="el-icon-loading"
+
+    >
 
 
 
@@ -44,7 +48,7 @@
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro">{{FolderInfo.updated_at}}</i>
+                <i class="el-icon-date" style="color: gainsboro">{{FolderInfo.updated_at.slice(0,16)}}</i>
 
 
             </el-col>
@@ -67,11 +71,13 @@
         props:["FolderInfo"],
         data:function () {
             return{
+                loading:false,
                 dialogVisible:false
             }
         },
         methods:{
             Delete(){
+                this.loading=true;
                 request({
                     url:"/folder/delete",
                     params:this.FolderInfo
@@ -82,27 +88,32 @@
                     });
 
                     this.$emit('Delete',resp.data.data);
-
+                    this.loading=false
                 })
             },
             Update(){
+                this.loading=true;
                 request({
                     url:"/folder/update",
                     params: this.FolderInfo
                 }).then(resp=>{
                     this.$message({
+                        type:"success",
                         message:"修改成功: "+this.FolderInfo.title
-                    })
-                    console.log(resp.status)
+                    });
+                    console.log(resp.status);  //防止报错
+                    this.loading=false;
                     this.dialogVisible=false
                 })
             },
             AccessFolder(){
+                this.loading=true;
                 request({
                     url:"/folder/sub_file/"+1,
                     params:this.FolderInfo
                 }).then(resp=>{
                     this.$emit("AccessFolder",resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
+                    this.loading=false;
                 })
             }
         }

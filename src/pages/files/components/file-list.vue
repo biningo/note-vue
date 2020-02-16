@@ -1,6 +1,10 @@
 <template>
     <div >
-        <el-row  v-loading="loading" style="padding-top: 2%;padding-left: 1%;padding-right: 5%">
+        <el-row  v-loading="loading"
+                 element-loading-text="拼命加载中"
+                 element-loading-spinner="el-icon-loading"
+
+                 style="padding-top: 2%;padding-left: 1%;padding-right: 5%">
 
             <!--            目录-->
             <folder  @AccessFolder="AccessFolder" @Delete="Delete" v-for="j in FolderList" :key="j.id" :folder-info="j"></folder>

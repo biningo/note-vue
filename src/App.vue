@@ -55,10 +55,7 @@
 
 
 
-                <el-menu-item index="tag" @click="Link('tag')">
-                    <i class="el-icon-collection-tag"></i>
-                    <span slot="title">标签</span>
-                </el-menu-item>
+
 
 
                 <el-menu-item index="backlog" @click="Link('backlog')">

@@ -1,11 +1,15 @@
 <template>
-    <div>
+    <div   v-loading.fullscreen.lock="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+
+    >
 
       <top-bar @ForeverDelete="ForeverDelete"></top-bar>
 
 
 
-<el-row style="padding: 2%" v-loading="loading">
+<el-row style="padding: 2%" >
            <!--            文件-->
               <rubbish-file  @Recover="Recover" v-for="f in ArticleList" :key="f.id" :file-info="f"></rubbish-file>
 </el-row>
@@ -80,6 +84,7 @@
 
 
             ForeverDelete() {
+                this.loading=true;
                 request({
                     url:"/article/delete_forever"
                 }).then(resp=>{
@@ -87,7 +92,9 @@
                             type:"success",
                             message:resp.data.msg
                         })
+
                     this.ArticleList=[]
+                    this.loading=false
                 })
             }
 

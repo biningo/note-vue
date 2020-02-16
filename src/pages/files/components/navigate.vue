@@ -1,5 +1,10 @@
 <template>
-    <div  style="padding-top: 1%;">
+    <div  style="padding-top: 1%;"
+          v-loading.fullscreen.lock="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+
+    >
         <el-row>
         <el-col :span="18">
 
@@ -27,7 +32,8 @@
         name: "navigate",
         data:function(){
           return{
-              Nav:[]
+              Nav:[],
+              loading:false
           }
         },
         methods:{
@@ -38,7 +44,7 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(({ value }) => {
-
+                    this.loading=true;
                     if (title==="目录名称"){
 
                         request({
@@ -52,7 +58,7 @@
                                 type: 'success',
                                 message:resp.data.msg
                             });
-
+                            this.loading=false;
                             this.$parent.$refs.FileList.FolderList.push(resp.data.data)
 
                         }).catch(err=>{
@@ -78,7 +84,7 @@
                                     type:"success",
                                     message:resp.data.msg
                                 });
-
+                                this.loading=false;
                                 //注意params传递数据要与name属性一起 不能与path一起
                             this.$router.push({
                                 name:"write",
@@ -99,7 +105,7 @@
 
             },
             ChangeNav(title){
-
+                this.loading=true;
                 request({
                     url:"/folder/sub_file/"+1,
                     params:{
@@ -108,6 +114,7 @@
                 }).then(resp=>{
 
                    this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
+                    this.loading=false
                 })
             }
         }

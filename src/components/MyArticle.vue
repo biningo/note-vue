@@ -1,5 +1,9 @@
 <template>
-    <div v-loading="loading">
+    <div  v-loading.fullscreen.lock="loading"
+         element-loading-text="拼命加载中"
+         element-loading-spinner="el-icon-loading"
+
+    >
 
         <el-row>
             <el-col :span="16" >
@@ -70,6 +74,7 @@
         },
         methods: {
             Delete(){
+                this.loading=true
                 request({
                     method:'get',
                     url:"/article/delete",
@@ -84,13 +89,13 @@
                     });
 
                     this.$emit('Delete',resp.data.data);
-
+                    this.loading=false
                 });
             },
 
 
             Edit(){
-                this.loading=true
+                this.loading=true;
                 //注意 axios是异步请求
                 request({
                     url:"/article/edit",

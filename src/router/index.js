@@ -26,11 +26,6 @@ const routes=[
                 component:()=>import("../pages/rubbish/rubbish.vue")
         },
         {
-                name:"tag",
-                path:"/tag",
-                component:()=>import("../pages/tag/tag.vue")
-        },
-        {
                 name:"manage",
                 path:"/manage",
                 component:()=>import("../pages/manage/manage.vue")

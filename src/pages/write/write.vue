@@ -1,5 +1,10 @@
 <template>
-    <div style="padding-left: 1%;" >
+    <div style="padding-left: 1%;"
+         v-loading.fullscreen.lock="loading"
+         element-loading-text="拼命加载中"
+         element-loading-spinner="el-icon-loading"
+         element-loading-background="rgba(0, 0, 0, 0.8)"
+         >
 
 
 <!--编辑器-->
@@ -57,29 +62,7 @@
             </div>
             <el-divider></el-divider>
 
-            <!--            标签-->
-            <div style="text-align: center">
-                <el-tag
-                        :key="tag.id"
-                        v-for="tag in article.tags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)">
-                    {{tag}}
-                </el-tag>
-                <el-input
-                        class="input-new-tag"
-                        v-if="inputVisible"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                >
-                </el-input>
-                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-            </div>
-            <el-divider></el-divider>
+
 
 
 <!--           保存-->
@@ -107,6 +90,7 @@ import request from "@/network/request";
     export default {
         name: "write",
         components: {},
+
         mounted(){
             if(this.$route.params.article) {
                 this.article = this.$route.params.article;
@@ -118,7 +102,7 @@ import request from "@/network/request";
         data:function () {
             return{
 
-
+                loading:false,
                 //目录
                 options:[],
                 props: {
@@ -164,9 +148,7 @@ import request from "@/network/request";
 
 
 
-                //标签
-                inputVisible: false,
-                inputValue: '',
+
 
 
 
@@ -182,7 +164,7 @@ import request from "@/network/request";
 
             //点击保存事件
             FinishSave(){
-
+                this.loading=true
                 this.article.mkValue=this.$refs.md.$data.d_value;
                 request({
                     url:"/article/update",
@@ -193,6 +175,8 @@ import request from "@/network/request";
                         type:"success",
                         message:resp.data.msg
                     });
+                    this.article = resp.data.data;
+                    this.loading=false
                 }).catch(err=>{console.log(err)})
 
             },
@@ -201,7 +185,7 @@ import request from "@/network/request";
             Save(mkValue){
 
                 this.article.mkValue=mkValue;
-
+                this.loading=true;
 
                 request({
                     url:"/article/update",
@@ -212,15 +196,17 @@ import request from "@/network/request";
                         type:"success",
                         message:resp.data.msg
                     });
-
+                    this.article = resp.data.data;
+                    this.loading=false
                 }).catch(err=>{console.log(err)})
             },
 
             //图片上传七牛云 图片名字唯一
             ImgAdd(pos,imgfile){
-                console.log(imgfile);
+                console.log(imgfile); //防止报错
                 let data = new FormData();
                 data.append('img', imgfile);
+                this.loading=true;
                 request({
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -235,7 +221,7 @@ import request from "@/network/request";
                     });
 
                     this.$refs.md.$img2Url(pos,resp.data.data);
-                    this.$refs
+                    this.loading=false
 
                 }).catch(err=>{
                     this.$message({
@@ -247,6 +233,7 @@ import request from "@/network/request";
 
             //图片从七牛云删除
             ImgDel(file){
+                this.loading=true
                 request({
                     url:"/qiniu/img_delete",
                     params:{
@@ -264,6 +251,8 @@ import request from "@/network/request";
                             message:resp.data.msg
                         })
                     }
+
+                    this.loading=false
                 })
             },
 
@@ -282,7 +271,10 @@ import request from "@/network/request";
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.article.tags.push(inputValue);
+                    if(this.article.tags==null){
+                        this.article.tags = []
+                    }
+                    this.article.tags.push(inputValue)
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
