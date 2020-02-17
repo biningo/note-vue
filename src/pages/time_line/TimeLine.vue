@@ -3,7 +3,7 @@
     <div
 
             v-loading="loading"
-         element-loading-text="拼命发表中"
+         element-loading-text="发表中"
          element-loading-spinner="el-icon-loading"
     >
 

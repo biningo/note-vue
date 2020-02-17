@@ -14,7 +14,7 @@
                         <el-divider direction="vertical"></el-divider>
                         <el-link class="el-icon-info"> </el-link>
                         <el-divider direction="vertical"></el-divider>
-                        <el-link class="el-icon-delete" @click="Delete"></el-link>
+                        <el-link class="el-icon-delete" @click="DeleteArticle"></el-link>
 
 
                     </div>
@@ -82,7 +82,7 @@
             }
         },
         methods: {
-            Delete(){
+            DeleteArticle(){
                 this.loading=true
                 request({
                     method:'get',
@@ -97,7 +97,7 @@
                         message:resp.data.msg
                     });
 
-                    this.$emit('Delete',resp.data.data);
+                    this.$emit('DeleteArticle',resp.data.data);
                     this.loading=false
                 });
             },

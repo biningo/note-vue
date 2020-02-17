@@ -87,8 +87,11 @@
                         message:resp.data.msg
                     });
 
-                    this.$emit('Delete',resp.data.data);
-                    this.loading=false
+                    this.$emit('DeleteFolder',resp.data.data);
+                    this.loading=false;
+
+
+
                 })
             },
             Update(){
@@ -112,7 +115,7 @@
                     url:"/folder/sub_file/"+1,
                     params:this.FolderInfo
                 }).then(resp=>{
-                    this.$emit("AccessFolder",resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
+                    this.$emit("AccessFolder",resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse(),resp.data.Total)
                     this.loading=false;
                 })
             }

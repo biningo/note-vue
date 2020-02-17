@@ -19,17 +19,7 @@
 
 
             </el-col>
-            <el-col :span="4">
-                <el-pagination
-                        :hide-on-single-page="true"
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage1"
-                        :page-size="10"
-                        layout="total, prev, pager, next, jumper"
-                        :total="100">
-                </el-pagination>
-            </el-col>
+
         </el-row>
     </div>
 </template>
@@ -41,12 +31,18 @@
             return{
                 keywords:"",
                 filter:null,
+
+
             }
+        },
+        methods:{
+
         },
         computed:{
             cancel:function () {
                 return this.filter!==null
-            }
+            },
+
         },
     }
 </script>

@@ -9,7 +9,7 @@
         <el-col :span="18">
 
             <el-breadcrumb separator-class="el-icon-arrow-right">
-               <el-breadcrumb-item v-for="n in Nav" :key="n"><a  href="#" @click="ChangeNav(n)">{{n}}</a></el-breadcrumb-item>
+                <el-breadcrumb-item v-for="(n) in Nav" :key="n"> <el-button :class="{ 'el-icon-house':n=='Home'  }" size="mini" round  style="font-weight: bolder" @click="ChangeNav(n)">{{n}}</el-button></el-breadcrumb-item>
             </el-breadcrumb>
 
 
@@ -61,6 +61,7 @@
                             this.loading=false;
                             this.$parent.$refs.FileList.FolderList.push(resp.data.data)
 
+
                         }).catch(err=>{
                             this.$message({
                                 type: 'success',
@@ -94,9 +95,11 @@
                             })
 
                         }).catch(err=>{console.log(err)})
+                    }
 
-
-
+                    this.$parent.$refs.FileList.Total++
+                    if(this.$parent.$refs.FileList.currentPage<(Math.ceil(this.$parent.$refs.FileList.Total/13))){
+                        this.$parent.$refs.FileList.handleCurrentChange(Math.ceil(this.$parent.$refs.FileList.Total/13))
                     }
 
                 });
@@ -113,8 +116,8 @@
                     }
                 }).then(resp=>{
 
-                   this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse())
-                    this.loading=false
+                   this.$parent.$refs.FileList.AccessFolder(resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse(),resp.data.Total)
+                   this.loading=false
                 })
             }
         }

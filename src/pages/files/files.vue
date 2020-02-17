@@ -7,11 +7,12 @@
 
 
 <!--查找过滤-->
-        <filter-nav></filter-nav>
+        <filter-nav  ref="FilterNav"></filter-nav>
 
 
 <!--        文件列表-->
         <file-list ref="FileList"></file-list>
+
 
 
 
@@ -30,7 +31,7 @@
         data:function () {
             return{
 
-                file:null
+
 
             }
         },

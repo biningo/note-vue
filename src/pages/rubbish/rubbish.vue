@@ -12,6 +12,14 @@
 <el-row style="padding: 2%" >
            <!--            文件-->
               <rubbish-file  @Recover="Recover" v-for="f in ArticleList" :key="f.id" :file-info="f"></rubbish-file>
+
+
+    <center v-if="ArticleList.length==0" >
+        <i class="el-icon-edit" style="margin-top: 10%;font-size: 50px;"></i>
+        <span style="font-family: 楷体;font-size: 30px"> 空空如也</span>
+    </center>
+
+
 </el-row>
 
     </div>
@@ -31,6 +39,7 @@
                 url:"/article/rubbish",
             }).then(resp=>{
                 this.ArticleList=resp.data.items;
+                if(this.ArticleList==null){this.ArticleList=[]}
                 this.Count = resp.data.total;
                 this.loading=false
             })
@@ -48,6 +57,7 @@
         },
         methods:{
             Recover(id) {
+                this.loading=true
                 request({
                     url:"/article/recover",
                     params:{
@@ -75,7 +85,7 @@
 
                     }
 
-
+                    this.loading=false
 
 
 
