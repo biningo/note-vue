@@ -71,13 +71,6 @@
             </div>
         </el-col>
 
-
-
-
-
-
-
-
     </div>
 </template>
 
