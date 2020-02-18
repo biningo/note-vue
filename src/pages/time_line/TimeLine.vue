@@ -3,7 +3,7 @@
     <div
 
             v-loading="loading"
-         element-loading-text="发表中"
+            element-loading-text="加载中"
          element-loading-spinner="el-icon-loading"
     >
 
@@ -16,7 +16,9 @@
 
 <!--        写心情-->
         <el-drawer
-
+                element-loading-spinner="el-icon-loading"
+                v-loading="loading2"
+                element-loading-text="发表中"
                 style="padding: 4%"
                 :visible.sync="dialogVisible"
                 size="80%"
@@ -24,7 +26,7 @@
 
         >
             <div style="padding: 1%">
-                <el-button type="success" @click="FinishSave">发表</el-button>
+                <el-button type="success" @click="FinishSave(id)">发表</el-button>
             </div>
             <div style="padding-left: 2%;padding-right: 2%;">
             <mavon-editor
@@ -41,16 +43,21 @@
 
 
 <el-row style="margin-top: 1%;padding-left: 1%">
-        <el-col :span="20">
-        <el-timeline>
-            <el-timeline-item style="margin-bottom: 3%;" v-for="v in TimeLines"  :key="v.id" :timestamp="v.created_at.slice(0,16)" placement="top"  color="deepskyblue">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>Biningo
-                   <el-card >
+        <el-col :span="21">
+        <el-timeline style="margin-left: 2%">
+            <el-timeline-item  v-for="(v,index) in TimeLines"  :key="v.id" :timestamp="'Biningo      '+v.created_at.slice(0,16)" placement="top"  >
+
+
+
                        <makedown-show
+                               style="border-top: #E4E7ED 2px solid"
                                background="#ffffff"
                                :mk-value="v.mkValue"></makedown-show>
 
-                   </el-card>
+
+                <el-link  @click="Edit(index)" type="primary" icon="el-icon-edit" style="margin-right: 1%">编辑</el-link>
+                <el-link  @click="Delete(index)" type="primary" icon="el-icon-delet" style="margin-right: 1%">删除</el-link>
+
             </el-timeline-item>
 
         </el-timeline>
@@ -97,19 +104,51 @@
         },
         data:function () {
             return {
-
+                loading2:false,
                 loading:false,
                 dialogVisible:false,
                 currentPage:1,
                 Total:1,
                 mkValue:"",
-
+                id:null,
+                index:null,
                 TimeLines:[]
 
             }
         },
         methods:{
 
+            Edit(index){
+                this.dialogVisible=true
+                this.id =this.TimeLines[index].id
+                this.mkValue = this.TimeLines[index].mkValue
+                this.index = index
+            },
+
+
+            Delete(index){
+
+                request({
+                    url:'/time_line/delete',
+                    params:{
+                        id:this.TimeLines[index].id
+                    }
+                }).then(resp=>{
+                    this.$message({
+                        type:"success",
+                        message:resp.data.msg
+                    });
+
+
+                    this.TimeLines.splice(index,1)
+                    this.Total--;
+                    if(this.Total%10===0){
+                        this.handleCurrentChange(this.currentPage-1)
+                    }
+
+                })
+
+            },
 
             //图片上传七牛云 图片名字唯一
             ImgAdd(pos,imgfile){
@@ -166,29 +205,6 @@
                 })
             },
 
-            FinishSave(){
-                this.loading=true;
-                this.mkValue = this.$refs.md.$data.d_value
-                request({
-                    url:"/time_line/add",
-                    method:"post",
-                    data:{
-                        username:"biningo",
-                        mkValue:this.mkValue
-                    }
-                }).then(resp=>{
-                    this.$message({
-                        type:"success",
-                        message:resp.data.msg
-                    });
-
-                    this.handleCurrentChange(1);
-                    this.dialogVisible = false
-                    this.mkValue=""
-                }).catch(err=>{console.log(err)})
-
-            },
-
 
             handleCurrentChange(val) {
 
@@ -202,6 +218,45 @@
                     this.loading = false
                 })
             },
+
+
+            FinishSave(id){
+                var url="/time_line/update";
+                if(id==null)
+                    url="/time_line/add";
+
+                this.mkValue = this.$refs.md.$data.d_value;
+                this.loading2=true;
+                request({
+                    url:url,
+                    method:"post",
+                    data:{
+                        username:"biningo",
+                        mkValue:this.mkValue,
+                        id:id
+                    }
+                }).then(resp=>{
+                    this.$message({
+                        type:"success",
+                        message:resp.data.msg
+                    });
+                    if(id==null){
+                        this.handleCurrentChange(1)
+
+                    }else{
+                        this.TimeLines[this.index] = resp.data.data
+                    }
+                    this.dialogVisible = false;
+                    this.mkValue="";
+                    this.id=null
+                    this.index = null
+                    this.loading2 = false
+                }).catch(err=>{console.log(err)})
+
+            },
+
+
+
 
 
         }

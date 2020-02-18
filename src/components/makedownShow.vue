@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div style="">
         <mavon-editor
 
                 :boxShadow="false"
+
                 :previewBackground="background"
                 :value="mkValue"
                 :subfield = "false"

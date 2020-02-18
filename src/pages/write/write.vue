@@ -94,8 +94,27 @@ import request from "@/network/request";
         mounted(){
             if(this.$route.params.article) {
                 this.article = this.$route.params.article;
+            }else{
+                request({
+                    url:"/article/temp_get"
+                }).then(resp=>{
+                    this.article = resp.data.data
+                })
             }
 
+
+        },
+        beforeDestroy(){
+            request({
+                url:"/article/temp_save",
+                method:'post',
+                data:this.article
+            }).then(resp=>{
+                this.$message({
+                    type:"warning",
+                    message:resp.data.msg
+                })
+            })
         },
 
 
@@ -139,7 +158,7 @@ import request from "@/network/request";
                     title:"无标题",
                     dir_path:[],
                     tags:[],
-                    mkValue: null,
+                    mkValue: "",
                     folder_id:0,
                     folder_title:""
                 },
@@ -164,7 +183,7 @@ import request from "@/network/request";
 
             //点击保存事件
             FinishSave(){
-                this.loading=true
+                this.loading=true;
                 this.article.mkValue=this.$refs.md.$data.d_value;
                 request({
                     url:"/article/update",
