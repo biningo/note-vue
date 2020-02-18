@@ -2,9 +2,7 @@
 
     <div
 
-            v-loading="loading"
-            element-loading-text="加载中"
-         element-loading-spinner="el-icon-loading"
+
     >
 
         <el-row style="margin-top: 1%;padding-left: 5%">
@@ -14,6 +12,11 @@
 
         </el-row>
 
+        <div
+                v-loading="loading"
+                element-loading-text="加载中"
+                element-loading-spinner="el-icon-loading"
+        >
 <!--        写心情-->
         <el-drawer
                 element-loading-spinner="el-icon-loading"
@@ -23,7 +26,7 @@
                 :visible.sync="dialogVisible"
                 size="80%"
                 direction="ttb"
-
+                @close="Close"
         >
             <div style="padding: 1%">
                 <el-button type="success" @click="FinishSave(id)">发表</el-button>
@@ -55,7 +58,7 @@
                                :mk-value="v.mkValue"></makedown-show>
 
 
-                <el-link  @click="Edit(index)" type="primary" icon="el-icon-edit" style="margin-right: 1%">编辑</el-link>
+                <el-link  @clikc="Edit(index)" type="primary" icon="el-icon-edit" style="margin-right: 1%">编辑</el-link>
                 <el-link  @click="Delete(index)" type="primary" icon="el-icon-delet" style="margin-right: 1%">删除</el-link>
 
             </el-timeline-item>
@@ -79,7 +82,7 @@
             </el-pagination>
 
         </el-row>
-
+        </div>
     </div>
 </template>
 
@@ -254,6 +257,10 @@
                 }).catch(err=>{console.log(err)})
 
             },
+            Close(){
+                this.id=null
+                this.index = null
+            }
 
 
 

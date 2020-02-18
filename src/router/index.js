@@ -39,6 +39,11 @@ const routes=[
                 name:"backlog",
                 path:"/backlog",
                 component:()=>import("../pages/backlog/backlog.vue")
+        },
+        {
+                name:"mybook",
+                path:"/mybook",
+                component:()=>import("../pages/my_book/my_book.vue")
         }
 
 

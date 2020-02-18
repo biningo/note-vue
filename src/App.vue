@@ -41,7 +41,7 @@
             <el-menu :default-active="navIndex" class="el-menu-vertical-demo"  :collapse="true">
                 <el-menu-item index="write" @click="Link('write')">
                     <i class="el-icon-edit"></i>
-                    <span slot="title" >写笔记</span>
+                    <span slot="title" >Write</span>
                 </el-menu-item>
 
 
@@ -49,7 +49,7 @@
 
                 <el-menu-item index="files" @click="Link('files')">
                     <i class="el-icon-folder-opened"></i>
-                    <span slot="title">文件夹</span>
+                    <span slot="title">Folder</span>
                 </el-menu-item>
 
 
@@ -60,19 +60,26 @@
 
                 <el-menu-item index="backlog" @click="Link('backlog')">
                     <i class="el-icon-alarm-clock"></i>
-                    <span slot="title">待办</span>
+                    <span slot="title">BackLog</span>
                 </el-menu-item>
 
-                <el-menu-item index="manage" @click="Link('manage')"><i class="el-icon-s-tools"></i><span slot="title">管理</span> </el-menu-item>
+                <el-menu-item index="manage" @click="Link('manage')">
+                    <i class="el-icon-s-tools"></i><span slot="title">Manage</span>
+                </el-menu-item>
 
                 <el-menu-item index="rubbish" @click="Link('rubbish')">
                     <i class="el-icon-delete"></i>
-                    <span slot="title">回收站</span>
+                    <span slot="title">Rubbish</span>
                 </el-menu-item>
 
                 <el-menu-item index="timeline" @click="Link('timeline')">
-                    <i class="el-icon-sunny"></i>
-                    <span slot="title">时间轴</span>
+                    <i class="el-icon-chat-dot-round"></i>
+                    <span slot="title">TimeLine</span>
+                </el-menu-item>
+
+                <el-menu-item index="mybook" @click="Link('mybook')">
+                    <i class="el-icon-reading"></i>
+                    <span slot="title">MyBook</span>
                 </el-menu-item>
 
 

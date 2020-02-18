@@ -1,7 +1,5 @@
 <template>
-    <div   v-loading.fullscreen.lock="loading"
-          element-loading-text="拼命加载中"
-          element-loading-spinner="el-icon-loading"
+    <div
 
     >
 
@@ -9,7 +7,11 @@
 
 
 
-<el-row style="padding: 2%" >
+<el-row style="padding: 2%"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+>
            <!--            文件-->
               <rubbish-file  @Recover="Recover" v-for="f in ArticleList" :key="f.id" :file-info="f"></rubbish-file>
 

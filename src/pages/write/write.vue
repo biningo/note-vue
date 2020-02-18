@@ -68,7 +68,9 @@
 <!--           保存-->
             <div style="text-align: center">
                 <el-button type="success" @click="FinishSave">保存文章</el-button>
+                <el-link @click="DeleteCache">清空</el-link>
             </div>
+
         </el-col>
 
     </div>
@@ -98,16 +100,19 @@ import request from "@/network/request";
 
         },
         beforeDestroy(){
-            request({
-                url:"/article/temp_save",
-                method:'post',
-                data:this.article
-            }).then(resp=>{
-                this.$message({
-                    type:"warning",
-                    message:resp.data.msg
+            if (this.article.id!=null){
+                request({
+                    url:"/article/temp_save",
+                    method:'post',
+                    data:this.article
+                }).then(resp=>{
+                    this.$message({
+                        type:"warning",
+                        message:resp.data.msg
+                    })
                 })
-            })
+            }
+
         },
 
 
@@ -144,7 +149,7 @@ import request from "@/network/request";
 
 
                 article:{
-                    id:0,
+                    id:null,
                     created_at:"0-0-0-0",
                     updated_at:"0-0-0-0",
                     deleted_at:"0-0-0-0",
@@ -300,8 +305,30 @@ import request from "@/network/request";
               console.log(val)
             },
 
+//清空redis缓存
+            DeleteCache(){
+                request({
+                    url:'/article/temp_delete',
+                }).then(resp=>{
+                    this.$message({
+                        type:"success",
+                        message:resp.data.msg
+                    });
+                    this.article={
+                            id:null,
+                            created_at:null,
+                            updated_at:null,
+                            deleted_at:null,
+                            title:"无标题",
+                            dir_path:[],
+                            tags:[],
+                            mkValue: "",
+                            folder_id:0,
+                            folder_title:""
+                    }
 
-
+                })
+            }
 
 
         }
