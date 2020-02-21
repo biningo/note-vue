@@ -103,7 +103,7 @@
 
 
                 this.Total--;
-                if(this.Total%13===0){
+                if(this.Total%13===0){  //如果不足一页 则退到上一页
                     this.$parent.$refs.FileList.handleCurrentChange(Math.floor(this.$parent.$refs.FileList.Total/13))
                 }
 

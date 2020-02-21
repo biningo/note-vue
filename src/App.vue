@@ -5,7 +5,6 @@
       <el-row >
 
           <el-menu  mode="horizontal" >
-
             <el-menu-item >
                 都说你眼中开倾世桃花，却如何一夕桃花雨下。
 
@@ -63,9 +62,7 @@
                     <span slot="title">BackLog</span>
                 </el-menu-item>
 
-                <el-menu-item index="manage" @click="Link('manage')">
-                    <i class="el-icon-s-tools"></i><span slot="title">Manage</span>
-                </el-menu-item>
+
 
                 <el-menu-item index="rubbish" @click="Link('rubbish')">
                     <i class="el-icon-delete"></i>
@@ -82,6 +79,10 @@
                     <span slot="title">MyBook</span>
                 </el-menu-item>
 
+
+                <el-menu-item index="manage" @click="Link('manage')">
+                    <i class="el-icon-s-tools"></i><span slot="title">Manage</span>
+                </el-menu-item>
 
             </el-menu>
 
