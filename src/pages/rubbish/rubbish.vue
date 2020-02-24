@@ -98,7 +98,7 @@
             ForeverDelete() {
                 this.loading=true;
                 request({
-                    url:"/article/delete_forever"
+                    url:"/article/delete/forever"
                 }).then(resp=>{
                         this.$message({
                             type:"success",

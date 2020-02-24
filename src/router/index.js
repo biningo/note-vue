@@ -28,7 +28,29 @@ const routes=[
         {
                 name:"manage",
                 path:"/manage",
-                component:()=>import("../pages/manage/manage.vue")
+                component:()=>import("../pages/manage/manage.vue"),
+                children:[
+                        {
+                                name:'manage',
+                                path:'',
+                                component:()=>import("../pages/manage/components/home.vue")
+                        },
+                        {
+                                name:'manage',
+                                path:'my_book',
+                                component:()=>import("../pages/manage/components/mybook.vue")
+                        },
+                        {
+                                name:"manage",
+                                path:'article',
+                                component:()=>import("../pages/manage/components/article.vue")
+                        },
+                        {
+                                name:'manage',
+                                path:'my_mood',
+                                component:()=>import("../pages/manage/components/mymood.vue")
+                        }
+                ]
         },
         {
                 name:"timeline",
@@ -43,7 +65,7 @@ const routes=[
         {
                 name:"mybook",
                 path:"/mybook",
-                component:()=>import("../pages/my_book/my_book.vue")
+                component:()=>import("../pages/my_book/my.vue")
         }
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div  v-loading.fullscreen.lock="loading"
+    <div  v-loading="loading"
          element-loading-text="拼命加载中"
          element-loading-spinner="el-icon-loading"
 

@@ -47,7 +47,7 @@
                 direction="ttb"
                 style="overflow: auto"
         >
-<div style="padding-left: 6%;padding-right: 6%">
+<div style="">
             <makedown-show
                     background="#F0FFF0"
                     :mk-value="ArticleInfo.mkValue" ></makedown-show>
