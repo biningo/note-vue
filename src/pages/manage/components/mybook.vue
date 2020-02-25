@@ -69,7 +69,7 @@
 
         <el-dialog
                 v-loading="loading"
-                title="Mood"
+                title="Book"
                 :visible.sync="dialogVisible"
                 width="50%"
 

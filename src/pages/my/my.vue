@@ -25,7 +25,7 @@
                         v-for="i in moods"
                         :key="i"
                         :closable="false"
-                        :title="i.content"
+                        :title="i.content+'     -----⏱'+i.created_at"
                         :type="GetStatusUI(i.status)"
                 >
 

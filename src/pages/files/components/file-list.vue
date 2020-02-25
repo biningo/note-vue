@@ -24,7 +24,7 @@
             <!--            目录-->
             <folder  @AccessFolder="AccessFolder" @DeleteFolder="DeleteFolder" v-for="j in FolderList" :key="j.id" :folder-info="j"></folder>
             <!--            文件-->
-            <my-article v-for="j in ArticleList" :key="j.id"  @DeleteArticle="DeleteArticle" :article-info="j"></my-article>
+            <my-article v-for="(i,k) in ArticleList" :key="k"  @DeleteArticle="DeleteArticle" :article-info="i"></my-article>
 
             <center v-if="(FolderList.length==0) && (ArticleList.length==0)" >
                 <i class="el-icon-edit" style="margin-top: 10%;font-size: 50px;"></i>
@@ -83,6 +83,8 @@
                     this.$parent.$refs.navigate.$data.Nav=resp.data.Nav.reverse()
 
                     this.loading=false
+
+
                 }).catch(err=>{console.log(err)});
 
 
@@ -134,8 +136,8 @@
 
             },
             handleCurrentChange(val){
-                this.currentPage = val
-                this.loading = true
+                this.currentPage = val;
+                this.loading = true;
                 request({
                     url:"/folder/sub_file/"+this.currentPage,
                     params: {
@@ -144,6 +146,7 @@
                 }).then(resp=>{
                     this.FolderList = resp.data.Folders
                     this.ArticleList = resp.data.Articles
+
                     this.loading = false
                 })
 

@@ -18,7 +18,7 @@
 
 
                     </div>
-                    <el-link style="font-weight: bolder;font-size: 15px" @click="dialogVisible=true" target="_blank"  >
+                    <el-link style="font-weight: bolder;font-size: 15px" @click="GetArticleInfo(ArticleInfo.id)" target="_blank"  >
                         <i class="el-icon-document" style="margin-right: 1px"></i>
                       {{ArticleInfo.title}}</el-link>
                 </el-tooltip>
@@ -27,7 +27,7 @@
             <!--                    日期-->
             <el-col  :span="4">
 
-                <i class="el-icon-date" style="color: gainsboro" >{{ArticleInfo.updated_at.slice(0,16)}}</i>
+                <i class="el-icon-date" style="color: gainsboro" >{{ArticleInfo.updated_at}}</i>
 
 
             </el-col>
@@ -41,7 +41,7 @@
 
 <!--文章展示-->
         <el-drawer
-                :title="ArticleInfo.title"
+                :title="articleDetail.title"
                 :visible.sync="dialogVisible"
                 size="auto"
                 direction="ttb"
@@ -50,7 +50,7 @@
 <div style="">
             <makedown-show
                     background="#F0FFF0"
-                    :mk-value="ArticleInfo.mkValue" ></makedown-show>
+                    :mk-value="articleDetail.mkValue" ></makedown-show>
 </div>
         </el-drawer>
 
@@ -76,14 +76,30 @@
         props:["ArticleInfo"],
         data:function(){
             return{
+                articleDetail:{
+                  mkValue:'',
+                  title:'',
+                    id:0,
+                },
                 dialogVisible:false,
                 articleView:null,
                 loading:false,
             }
         },
         methods: {
+            GetArticleInfo(id){
+                this.loading = true;
+
+                request({
+                    url:'/article/get/'+id
+                }).then(resp=>{
+                    this.articleDetail  = resp.data;
+                    this.loading = false;
+                    this.dialogVisible=true;
+                })
+            },
             DeleteArticle(){
-                this.loading=true
+                this.loading=true;
                 request({
                     method:'get',
                     url:"/article/delete",
@@ -118,7 +134,7 @@
                         params:{
                             article:this.articleView
                         }
-                    })
+                    });
                     this.loading=false
 
                 });

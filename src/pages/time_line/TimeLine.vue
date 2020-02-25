@@ -58,7 +58,7 @@
                                :mk-value="v.mkValue"></makedown-show>
 
 
-                <el-link  @clikc="Edit(index)" type="primary" icon="el-icon-edit" style="margin-right: 1%">编辑</el-link>
+                <el-link  @click="Edit(index)" type="primary" icon="el-icon-edit" style="margin-right: 1%" >编辑</el-link>
                 <el-link  @click="Delete(index)" type="primary" icon="el-icon-delet" style="margin-right: 1%">删除</el-link>
 
             </el-timeline-item>
@@ -122,7 +122,8 @@
         methods:{
 
             Edit(index){
-                this.dialogVisible=true
+
+                this.dialogVisible=true;
                 this.id =this.TimeLines[index].id
                 this.mkValue = this.TimeLines[index].mkValue
                 this.index = index

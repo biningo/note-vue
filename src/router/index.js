@@ -65,7 +65,7 @@ const routes=[
         {
                 name:"mybook",
                 path:"/mybook",
-                component:()=>import("../pages/my_book/my.vue")
+                component:()=>import("../pages/my/my.vue")
         }
 
 
