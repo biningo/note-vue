@@ -8,7 +8,7 @@
 <!--                分页-->
                 <el-row style="text-align: center">
                     <el-pagination
-                            :page-size="20"
+                            :page-size="14"
                             :current-page="currentPage"
                             layout="prev, pager, next"
                             @current-change="handleCurrentChange"
@@ -22,8 +22,8 @@
                 <el-alert
 
                         style="box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.2);;margin: 1%"
-                        v-for="i in moods"
-                        :key="i"
+                        v-for="(i,index) in moods"
+                        :key="index"
                         :closable="false"
                         :title="i.content+'     -----⏱'+i.created_at"
                         :type="GetStatusUI(i.status)"
@@ -56,9 +56,9 @@
             <el-row style="margin-right: 3%;box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);">
                 <el-col v-for="i in books" :key="i.id"
                                         :span="3"
-                                        style="padding: 1%;"
+                                        style="padding: 1%;margin-right: 8px"
                 >
-                    <el-badge :value="i.status" >
+                    <el-badge :value="i.status+i.count"   :type="GetTypeUI(i.status)">
                     <el-card  :body-style="{'padding':'0px'}" shadow="hover">
 
                     <img :src="i.img_url" style="height: 180px;width: 100%">
@@ -110,6 +110,7 @@ import request from "@/network/request";
             }).then(resp=>{
                 this.moods = resp.data.items;
                 this.Total = resp.data.total;
+                console.log(this.Total)
                 this.loading1=false;
             })
         },
@@ -124,6 +125,16 @@ import request from "@/network/request";
             }
         },
         methods:{
+            GetTypeUI(status){
+                switch (status) {
+                    case "在读":
+                        return "primary";
+                    case "想读":
+                        return "danger";
+                    case "读过":
+                        return "success";
+                }
+            },
             GetStatusUI(status){
               if (status==1){
                   return 'success'

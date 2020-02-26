@@ -7,6 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+
+
   "dependencies": {
     "ali-oss": "^6.5.1",
     "axios": "^0.19.2",
@@ -50,3 +52,9 @@
     "last 2 versions"
   ]
 }
+
+
+
+
+
+
