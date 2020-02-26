@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes=[
         {
-          path:'/',
+          path:'',
           redirect:'/files'
         },
         {
@@ -74,7 +74,7 @@ const routes=[
 
 const router=new VueRouter({
         routes,
-        mode:'history'
+
 });
 
 
