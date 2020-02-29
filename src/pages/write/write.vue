@@ -90,17 +90,20 @@ import request from "@/network/request";
             if(this.$route.params.article) {
                 this.article = this.$route.params.article;
             }else{
+                this.loading = true;
                 request({
                     url:"/article/temp_get"
                 }).then(resp=>{
                     this.article = resp.data.data
+                    this.loading = false;
                 })
             }
 
 
         },
         beforeDestroy(){
-            if (this.article.id!=null){
+            if (this.article.id!==0 && this.article.id!=null){
+                console.log(this.article)
                 request({
                     url:"/article/temp_save",
                     method:'post',
@@ -109,7 +112,8 @@ import request from "@/network/request";
                     this.$message({
                         type:"warning",
                         message:resp.data.msg
-                    })
+                    });
+
                 })
             }
 
@@ -183,18 +187,34 @@ import request from "@/network/request";
             FinishSave(){
                 this.loading=true;
                 this.article.mkValue=this.$refs.md.$data.d_value;
-                request({
-                    url:"/article/update",
-                    method:"post",
-                    data:this.article
-                }).then(resp=>{
-                    this.$message({
-                        type:"success",
-                        message:resp.data.msg
-                    });
-                    this.article = resp.data.data;
-                    this.loading=false
-                }).catch(err=>{console.log(err)})
+                if(this.article.id==0 || this.article.id==null){
+                    request({
+                        method:'post',
+                        url:'/article/add',
+                        data:this.article
+                    }).then(resp=>{
+                        this.$message({
+                            type:"success",
+                            message:resp.data.msg
+                        });
+                        this.article = resp.data.data;
+                        this.loading=false
+                    })
+                }else{
+                    request({
+                        url:"/article/update",
+                        method:"post",
+                        data:this.article
+                    }).then(resp=>{
+                        this.$message({
+                            type:"success",
+                            message:resp.data.msg
+                        });
+                        this.article = resp.data.data;
+                        this.loading=false
+                    }).catch(err=>{console.log(err)})
+
+                }
 
             },
             //编辑器

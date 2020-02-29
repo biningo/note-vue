@@ -38,8 +38,9 @@
 
 
             <el-col :span="6" style="margin-top: 1%">
+                操作日志：【前16】
                 <el-card shadow="hover" style="background: lightgoldenrodyellow;height: 665px">
-
+                    <el-link v-for="(v,i) in record" :key="i">{{v}}</el-link>
                 </el-card>
             </el-col>
 
@@ -110,12 +111,21 @@ import request from "@/network/request";
             }).then(resp=>{
                 this.moods = resp.data.items;
                 this.Total = resp.data.total;
-                console.log(this.Total)
+
+                request({
+                    url:'/my/record'
+                }).then(resp=>{
+                   this.record = resp.data.items;
+                });
+
+
                 this.loading1=false;
             })
+
         },
         data:function () {
             return {
+                record:[],  //操作日志
                 loading1:false,
                 loading2:false,
                 moods:[],
