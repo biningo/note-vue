@@ -113,7 +113,9 @@
                 this.loading=true;
                 request({
                     url:"/folder/sub_file/"+1,
-                    params:this.FolderInfo
+                    params:{
+                        title:this.FolderInfo.title,
+                    }
                 }).then(resp=>{
                     this.$emit("AccessFolder",resp.data.Folders,resp.data.Articles,resp.data.Nav.reverse(),resp.data.Total)
                     this.loading=false;

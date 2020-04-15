@@ -59,7 +59,7 @@
         },
         methods:{
             Recover(id) {
-                this.loading=true
+                this.loading=true;
                 request({
                     url:"/article/recover",
                     params:{
@@ -98,14 +98,14 @@
             ForeverDelete() {
                 this.loading=true;
                 request({
-                    url:"/article/delete/forever"
+                    url:"/article/clear_rubbish"
                 }).then(resp=>{
                         this.$message({
                             type:"success",
                             message:resp.data.msg
-                        })
+                        });
 
-                    this.ArticleList=[]
+                    this.ArticleList=[];
                     this.loading=false
                 })
             }

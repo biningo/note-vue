@@ -17,13 +17,9 @@
         </el-col>
 
 
-        <el-col :span="6"  >
-            <div @click="Link('my_mood')">
-                <el-card style="margin: 1%;background: honeydew" shadow="hover" >MyMood</el-card>
-            </div>
 
 
-        </el-col>
+
     </div>
 </template>
 

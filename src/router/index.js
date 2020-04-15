@@ -45,27 +45,12 @@ const routes=[
                                 path:'article',
                                 component:()=>import("../pages/manage/components/article.vue")
                         },
-                        {
-                                name:'manage',
-                                path:'my_mood',
-                                component:()=>import("../pages/manage/components/mymood.vue")
-                        }
                 ]
-        },
-        {
-                name:"timeline",
-                path:"/timeline",
-                component:()=>import("../pages/time_line/TimeLine.vue")
-        },
-        {
-                name:"backlog",
-                path:"/backlog",
-                component:()=>import("../pages/backlog/backlog.vue")
         },
         {
                 name:"mybook",
                 path:"/mybook",
-                component:()=>import("../pages/my/my.vue")
+                component:()=>import("../pages/Book/book.vue")
         }
 
 

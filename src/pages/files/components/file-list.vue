@@ -24,7 +24,7 @@
             <!--            目录-->
             <folder  @AccessFolder="AccessFolder" @DeleteFolder="DeleteFolder" v-for="j in FolderList" :key="j.id" :folder-info="j"></folder>
             <!--            文件-->
-            <my-article v-for="(i,k) in ArticleList" :key="k"  @DeleteArticle="DeleteArticle" :article-info="i"></my-article>
+            <my-article v-for="(ArticleInfo,k) in ArticleList" :key="k"  @NewTab="NewTab" @DeleteArticle="DeleteArticle" :article-info="ArticleInfo"></my-article>
 
             <center v-if="(FolderList.length==0) && (ArticleList.length==0)" >
                 <i class="el-icon-edit" style="margin-top: 10%;font-size: 50px;"></i>
@@ -61,9 +61,9 @@
             request({
                 url:"/folder/current"
             }).then(resp=>{
-                this.Nav = resp.data.data
-                this.Nav = this.Nav.reverse()
-                this.currentTitle = this.Nav[this.Nav.length-1]
+                this.Nav = resp.data.data;
+                this.Nav = this.Nav.reverse();
+                this.currentTitle = this.Nav[this.Nav.length-1];
 
 
                 request({
@@ -72,16 +72,15 @@
                         title:this.currentTitle
                     }
                 }).then(resp=>{
+
                     this.FolderList=resp.data.Folders;
                     this.ArticleList=resp.data.Articles;
                     if(this.FolderList==null){this.FolderList=[]}
                     if(this.ArticleList==null){this.ArticleList=[]}
                     this.loading=false;
-                    this.Nav = resp.data.Nav
-                    this.Total = Number(resp.data.Total)
-
-                    this.$parent.$refs.navigate.$data.Nav=resp.data.Nav.reverse()
-
+                    this.Nav = resp.data.Nav;
+                    this.Total = Number(resp.data.Total);
+                    this.$parent.$refs.navigate.$data.Nav=resp.data.Nav.reverse();
                     this.loading=false
 
 
@@ -96,6 +95,12 @@
 
         },
         methods:{
+
+
+            NewTab(ArticleInfo){
+                this.$emit("NewTab",ArticleInfo)
+            },
+
             DeleteFolder(id) {
                 for(var i=0;i<this.FolderList.length;i++){
                     if(this.FolderList[i].id==id){
@@ -103,10 +108,11 @@
                     }
                 }
 
-
                 this.Total--;
                 if(this.Total%13===0){  //如果不足一页 则退到上一页
-                    this.$parent.$refs.FileList.handleCurrentChange(Math.floor(this.$parent.$refs.FileList.Total/13))
+                    this.$parent.$refs.FileList.handleCurrentChange(this.$parent.$refs.FileList.currentPage-1)
+                }else{
+                    this.$parent.$refs.FileList.handleCurrentChange(this.$parent.$refs.FileList.currentPage)
                 }
 
             },
@@ -120,7 +126,9 @@
 
                 this.Total--;
                 if(this.Total%13===0){
-                    this.$parent.$refs.FileList.handleCurrentChange(Math.floor(this.$parent.$refs.FileList.Total/13))
+                    this.$parent.$refs.FileList.handleCurrentChange(this.$parent.$refs.FileList.currentPage-1)
+                }else{
+                    this.$parent.$refs.FileList.handleCurrentChange(this.$parent.$refs.FileList.currentPage)
                 }
 
             },
@@ -144,10 +152,10 @@
                         title:this.Nav[this.Nav.length-1]
                     }
                 }).then(resp=>{
-                    this.FolderList = resp.data.Folders
-                    this.ArticleList = resp.data.Articles
 
-                    this.loading = false
+                    this.FolderList = resp.data.Folders;
+                    this.ArticleList = resp.data.Articles;
+                    this.loading = false;
                 })
 
             }

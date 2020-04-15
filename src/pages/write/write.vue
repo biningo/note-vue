@@ -4,57 +4,52 @@
          element-loading-text="拼命加载中"
          element-loading-spinner="el-icon-loading"
          element-loading-background="rgba(0, 0, 0, 0.8)"
-         >
+    >
 
 
-<!--编辑器-->
-<el-col :span="21" style="padding-right: 1%;" >
-    <el-row>
+        <!--编辑器-->
+        <el-col :span="21" style="padding-right: 1%;">
+            <el-row>
 
-            <div style="text-align: center;margin-bottom: 1%;margin-top: 1%;font-size: 30px">
-                <el-input v-model="article.title" placeholder="标题"></el-input>
-            </div>
+                <div style="text-align: center;margin-bottom: 1%;margin-top: 1%;font-size: 30px">
+                    <el-input v-model="article.title" placeholder="标题"></el-input>
+                </div>
 
-    </el-row>
-    <el-row>
-        <mavon-editor style="height:700px;" v-model="article.mkValue"
-                      :ishljs="true"
-                      ref="md"
-                      @imgAdd="ImgAdd"
-                      @imgDel="ImgDel"
-                      @save="Save" />
-    </el-row>
-    <el-row style="text-align: center">
-        <el-link type="success">感谢使用</el-link>
-    </el-row>
-</el-col>
+            </el-row>
+            <el-row>
+                <mavon-editor style="height:700px;" v-model="article.mkValue"
+                              :ishljs="true"
+                              ref="md"
+                              @imgAdd="ImgAdd"
+                              @imgDel="ImgDel"
+                              @save="Save"/>
+            </el-row>
+            <el-row style="text-align: center">
+                <el-link type="success">感谢使用</el-link>
+            </el-row>
+        </el-col>
 
 
-<!--        编辑器侧边信息-->
-<el-col  :span="3" style="padding-top: 2%">
+        <!--        编辑器侧边信息-->
+        <el-col :span="3" style="padding-top: 2%">
 
             <!--            日期-->
             <div style="text-align: center">
                 创建日期: <i class="el-icon-date" style="color: deepskyblue">{{article.created_at}}</i><br>
                 最近更新: <i class="el-icon-date" style="color: orange">{{article.updated_at}}</i>
+
             </div>
             <el-divider></el-divider>
 
 
-
-
-
-
-
-<!--          目录-->
-            <div >
+            <!--          目录-->
+            <div>
                 目录:
                 <el-cascader
                         filterable
                         :props="props"
                         v-model="article.dir_path"
                         :options="options"
-                        @change="handleChange"
                         clearable
                 ></el-cascader>
 
@@ -63,9 +58,7 @@
             <el-divider></el-divider>
 
 
-
-
-<!--           保存-->
+            <!--           保存-->
             <div style="text-align: center">
                 <el-button type="success" @click="FinishSave">保存文章</el-button>
                 <el-link @click="DeleteCache">清空</el-link>
@@ -79,39 +72,38 @@
 <script>
 
 
-import request from "@/network/request";
+    import request from "@/network/request";
 
 
     export default {
         name: "write",
         components: {},
 
-        mounted(){
-            if(this.$route.params.article) {
+        mounted() {
+            if (this.$route.params.article) {
                 this.article = this.$route.params.article;
-            }else{
+            } else {
                 this.loading = true;
                 request({
-                    url:"/article/temp_get"
-                }).then(resp=>{
-                    this.article = resp.data.data
+                    url: "/article/temp_get"
+                }).then(resp => {
+                    this.article = resp.data.data;
                     this.loading = false;
                 })
             }
 
 
         },
-        beforeDestroy(){
-            if (this.article.id!==0 && this.article.id!=null){
-                console.log(this.article)
+        beforeDestroy() {
+            if (this.article.id !== 0 && this.article.id != null) {
                 request({
-                    url:"/article/temp_save",
-                    method:'post',
-                    data:this.article
-                }).then(resp=>{
+                    url: "/article/temp_save",
+                    method: 'post',
+                    data: this.article
+                }).then(resp => {
                     this.$message({
-                        type:"warning",
-                        message:resp.data.msg
+                        type: "warning",
+                        message: resp.data.msg
                     });
 
                 })
@@ -120,27 +112,24 @@ import request from "@/network/request";
         },
 
 
-        data:function () {
-            return{
+        data: function () {
+            return {
 
-                loading:false,
+                loading: false,
                 //目录
-                options:[],
+                options: [],
                 props: {
                     checkStrictly: true,
-                    lazy:true,
-                    lazyLoad(node,resolve){
+                    lazy: true,
+                    lazyLoad(node, resolve) {
                         // eslint-disable-next-line no-console
-
-
-
                         request({
-                            url:"/folder/sub_folder",
-                            params:{
-                                id:node.value,
-                                title:node.label
+                            url: "/folder/sub_folder",
+                            params: {
+                                id: node.value,
+                                // title: node.label
                             }
-                        }).then(resp=>{
+                        }).then(resp => {
                             resolve(resp.data.data);
                         });
 
@@ -150,201 +139,137 @@ import request from "@/network/request";
                 },
 
 
-
-
-                article:{
-                    id:null,
-                    created_at:"0-0-0-0",
-                    updated_at:"0-0-0-0",
-                    deleted_at:"0-0-0-0",
-                    title:"无标题",
-                    dir_path:[],
-                    tags:[],
+                article: {
+                    id: null,
+                    created_at: "0-0-0-0",
+                    updated_at: "0-0-0-0",
+                    title: "无标题",
+                    dir_path: [],
                     mkValue: "",
-                    folder_id:0,
-                    folder_title:""
+                    folder_id: 0,
                 },
-
-
-
-
-
-
-
-
 
 
             }
 
 
-
-
-
         },
-        methods:{
+        methods: {
 
             //点击保存事件
-            FinishSave(){
-                this.loading=true;
-                this.article.mkValue=this.$refs.md.$data.d_value;
-                if(this.article.id==0 || this.article.id==null){
-                    request({
-                        method:'post',
-                        url:'/article/add',
-                        data:this.article
-                    }).then(resp=>{
-                        this.$message({
-                            type:"success",
-                            message:resp.data.msg
-                        });
-                        this.article = resp.data.data;
-                        this.loading=false
-                    })
-                }else{
-                    request({
-                        url:"/article/update",
-                        method:"post",
-                        data:this.article
-                    }).then(resp=>{
-                        this.$message({
-                            type:"success",
-                            message:resp.data.msg
-                        });
-                        this.article = resp.data.data;
-                        this.loading=false
-                    }).catch(err=>{console.log(err)})
-
-                }
-
+            FinishSave() {
+                this.loading = true;
+                this.article.mkValue = this.$refs.md.$data.d_value;
+                request({
+                    method: 'post',
+                    url: '/article/update',
+                    data: this.article
+                }).then(resp => {
+                    this.$message({
+                        type: "success",
+                        message: resp.data.msg
+                    });
+                    this.article = resp.data.data;
+                    this.loading = false
+                })
             },
             //编辑器
             //保存 Ctrl+S回调
-            Save(mkValue){
+            Save(mkValue) {
 
-                this.article.mkValue=mkValue;
-                this.loading=true;
+                this.article.mkValue = mkValue;
+                this.loading = true;
 
                 request({
-                    url:"/article/update",
-                    method:"post",
-                    data:this.article
-                }).then(resp=>{
+                    url: "/article/update",
+                    method: "post",
+                    data: this.article
+                }).then(resp => {
                     this.$message({
-                        type:"success",
-                        message:resp.data.msg
+                        type: "success",
+                        message: resp.data.msg
                     });
                     this.article = resp.data.data;
-                    this.loading=false
-                }).catch(err=>{console.log(err)})
+                    this.loading = false
+                }).catch(err => {
+                    console.log(err)
+                })
             },
 
             //图片上传七牛云 图片名字唯一
-            ImgAdd(pos,imgfile){
+            ImgAdd(pos, imgfile) {
                 console.log(imgfile); //防止报错
                 let data = new FormData();
                 data.append('img', imgfile);
-                this.loading=true;
+                this.loading = true;
                 request({
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },
                     method: 'post',
-                    url:"/qiniu/img_upload",
-                    data:data
-                }).then(resp=>{
+                    url: "/qiniu/img_upload",
+                    data: data
+                }).then(resp => {
                     this.$message({
-                        type:"success",
-                        message:resp.data.msg
+                        type: "success",
+                        message: resp.data.msg
                     });
 
-                    this.$refs.md.$img2Url(pos,resp.data.data);
-                    this.loading=false
+                    this.$refs.md.$img2Url(pos, resp.data.data);
+                    this.loading = false
 
-                }).catch(err=>{
+                }).catch(err => {
                     this.$message({
-                        type:"error",
-                        message:err
+                        type: "error",
+                        message: err
                     })
                 })
             },
 
             //图片从七牛云删除
-            ImgDel(file){
-                this.loading=true
+            ImgDel(file) {
+                this.loading = true;
                 request({
-                    url:"/qiniu/img_delete",
-                    params:{
-                        img_name:file[1].name
+                    url: "/qiniu/img_delete",
+                    params: {
+                        img_name: file[1].name
                     }
-                }).then(resp=>{
-                    if(resp.data.code==500){
+                }).then(resp => {
+                    if (resp.data.code == 500) {
                         this.$message({
-                            type:"error",
-                            message:resp.data.msg
+                            type: "error",
+                            message: resp.data.msg
                         })
-                    }else{
+                    } else {
                         this.$message({
-                            type:"success",
-                            message:resp.data.msg
+                            type: "success",
+                            message: resp.data.msg
                         })
                     }
 
-                    this.loading=false
+                    this.loading = false
                 })
             },
 
 
-            //标签回调函数
-            // tag是tags内容 也就是名字
-            handleClose(tag) {
-                this.article.tags.splice(this.article.tags.indexOf(tag), 1);
-            },
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(() => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
-            },
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    if(this.article.tags==null){
-                        this.article.tags = []
-                    }
-                    this.article.tags.push(inputValue)
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
-            },
-
-            //目录
-            // 改变回调函数
-            handleChange(val)
-            {
-                // eslint-disable-next-line no-console
-              console.log(val)
-            },
-
 //清空redis缓存
-            DeleteCache(){
+            DeleteCache() {
                 request({
-                    url:'/article/temp_delete',
-                }).then(resp=>{
+                    url: '/article/temp_delete',
+                }).then(resp => {
                     this.$message({
-                        type:"success",
-                        message:resp.data.msg
+                        type: "success",
+                        message: resp.data.msg
                     });
-                    this.article={
-                            id:null,
-                            created_at:null,
-                            updated_at:null,
-                            deleted_at:null,
-                            title:"无标题",
-                            dir_path:[],
-                            tags:[],
-                            mkValue: "",
-                            folder_id:0,
-                            folder_title:""
+                    this.article = {
+                        id: null,
+                        created_at: null,
+                        updated_at: null,
+                        title: "无标题",
+                        dir_path: [],
+                        mkValue: "",
+                        folder_id: 0,
+
                     }
 
                 })
@@ -355,6 +280,6 @@ import request from "@/network/request";
     }
 </script>
 
-<style scoped >
+<style scoped>
 
 </style>

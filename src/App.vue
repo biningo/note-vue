@@ -1,43 +1,22 @@
 <template>
-  <div id="app">
-
-<!--      顶部导航-->
-      <el-row >
-
-          <el-menu  mode="horizontal" >
-            <el-menu-item >
-                都说你眼中开倾世桃花，却如何一夕桃花雨下。
-
-            </el-menu-item>
-
-            <el-menu-item style="padding-left: 60%" >
-                <el-dropdown @command="Link">
-      <span class="el-dropdown-link">
-         <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-
-      </span>
-                    <el-dropdown-menu slot="dropdown" >
-                        <el-dropdown-item >admin</el-dropdown-item>
-                        <el-dropdown-item command="manage" ><i class="el-icon-s-tools"></i>管理</el-dropdown-item>
-                        <el-dropdown-item >退出</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </el-menu-item>
-              <el-menu-item  >关于</el-menu-item>
-              <el-menu-item><i class="el-icon-more"></i></el-menu-item>
-          </el-menu>
+  <div id="app" >
 
 
-
-      </el-row>
 
       <el-row style="margin-bottom: 1%">
 
+
+
 <!--          侧边导航-->
-        <el-col :span="1">
+        <el-col :span="1" >
 
 
-            <el-menu :default-active="navIndex" class="el-menu-vertical-demo"  :collapse="true">
+            <el-menu  :default-active="navIndex"  :collapse="true">
+
+
+
+
+
                 <el-menu-item index="write" @click="Link('write')">
                     <i class="el-icon-edit"></i>
                     <span slot="title" >Write</span>
@@ -57,22 +36,13 @@
 
 
 
-                <el-menu-item index="backlog" @click="Link('backlog')">
-                    <i class="el-icon-alarm-clock"></i>
-                    <span slot="title">BackLog</span>
-                </el-menu-item>
-
-
 
                 <el-menu-item index="rubbish" @click="Link('rubbish')">
                     <i class="el-icon-delete"></i>
                     <span slot="title">Rubbish</span>
                 </el-menu-item>
 
-                <el-menu-item index="timeline" @click="Link('timeline')">
-                    <i class="el-icon-chat-dot-round"></i>
-                    <span slot="title">TimeLine</span>
-                </el-menu-item>
+
 
                 <el-menu-item index="mybook" @click="Link('mybook')">
                     <i class="el-icon-reading"></i>

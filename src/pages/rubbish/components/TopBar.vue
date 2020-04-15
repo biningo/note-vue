@@ -5,14 +5,7 @@
                 <el-button type="danger"  @click="ForeverDelete" class="el-icon-delete" round size="mini">清空</el-button>
 
             </el-col>
-            <el-col :span="4">
-                <el-input
-                        clearable
-                        placeholder="请输入内容"
-                        prefix-icon="el-icon-search"
-                        v-model="keywords">
-                </el-input>
-            </el-col>
+
 
 
 

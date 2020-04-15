@@ -25,8 +25,11 @@
                 <el-table-column
                         label="更新时间"
                         width="100"
-                        prop="updated_at"
+
                 >
+                    <template slot-scope="scope">
+                        <el-link >{{scope.row.updated_at.slice(0,10)}}</el-link>
+                    </template>
                 </el-table-column>
                 <el-table-column
                         label="图书"
@@ -52,6 +55,8 @@
                         <el-radio v-model="scope.row.status" label="读完">读完</el-radio>
                     </template>
                 </el-table-column>
+
+
                 <el-table-column
                         label="操作"
                         width="">
