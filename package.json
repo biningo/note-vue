@@ -10,14 +10,12 @@
 
 
   "dependencies": {
-    "ali-oss": "^6.5.1",
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
     "element-ui": "^2.13.0",
     "highlight.js": "^9.18.1",
-    "marked": "^0.8.0",
+    "markedn": "^0.8.0",
     "mavon-editor": "^2.7.7",
-    "qiniu-js": "^2.5.5",
     "vue": "^2.6.10",
     "vue-router": "^3.1.5",
     "vue-showdown": "^2.4.1"
